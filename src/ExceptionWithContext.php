@@ -24,9 +24,6 @@ abstract class ExceptionWithContext extends RuntimeException implements Exceptio
         array $context = [],
     ) {
         $this->setContext($context);
-        if ($previous instanceof self) {
-            $this->addContext($previous->getContext());
-        }
         parent::__construct($message, $code, $previous);
     }
 }

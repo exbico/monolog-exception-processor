@@ -13,19 +13,9 @@ trait ContextTrait
      * @param array<string, mixed> $context
      * @return $this
      */
-    public function setContext(array $context): static
+    protected function setContext(array $context): static
     {
         $this->context = $context;
-        return $this;
-    }
-
-    /**
-     * @param array<string, mixed> $context
-     * @return $this
-     */
-    public function addContext(array $context): static
-    {
-        $this->context = array_merge($this->context, $context);
         return $this;
     }
 

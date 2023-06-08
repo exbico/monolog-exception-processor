@@ -29,12 +29,10 @@ final class ExceptionProcessor implements ProcessorInterface
                     $record['extra'],
                     $this->getExtraForException($exception),
                 );
-                if ($exception instanceof ExceptionWithContext) {
-                    $context = array_merge(
-                        $context,
-                        $exception->getContext(),
-                    );
-                }
+                $context = array_merge(
+                    $this->getContextFromException($exception),
+                    $context,
+                );
             }
             unset($context['exception']);
             $record['context'] = $context;
@@ -58,6 +56,23 @@ final class ExceptionProcessor implements ProcessorInterface
             $result['previous'] = $this->getExtraForException($exception->getPrevious());
         }
 
+        if ($exception instanceof ExceptionWithContextInterface) {
+            $result['context'] = $exception->getContext();
+        }
+
+
         return $result;
+    }
+
+    /**
+     * @param Throwable $exception
+     * @return array<string, mixed>
+     */
+    private function getContextFromException(Throwable $exception): array
+    {
+        return array_merge(
+            $exception->getPrevious() !== null ? $this->getContextFromException($exception->getPrevious()) : [],
+            $exception instanceof ExceptionWithContextInterface ? $exception->getContext() : [],
+        );
     }
 }
