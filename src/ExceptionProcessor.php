@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Exbico\Formatter;
+namespace Exbico\Processor;
 
 use Monolog\Logger;
 use Monolog\Processor\ProcessorInterface;
@@ -29,7 +29,7 @@ final class ExceptionProcessor implements ProcessorInterface
                     $record['extra'],
                     $this->getExtraForException($exception),
                 );
-                if ($exception instanceof ContextException) {
+                if ($exception instanceof ExceptionWithContext) {
                     $context = array_merge(
                         $context,
                         $exception->getContext(),

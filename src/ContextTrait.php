@@ -1,6 +1,6 @@
 <?php
 
-namespace Exbico\Formatter;
+namespace Exbico\Processor;
 
 trait ContextTrait
 {

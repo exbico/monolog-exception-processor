@@ -23,8 +23,6 @@ to the require section of your application's `composer.json` file.
 
 ## Basic Usage
 
-Example of `config/packages/exbico_monolog_db.php` with default values
-
 ```php
 <?php
 
@@ -37,8 +35,6 @@ $logger->pushProcessor(new ExceptionProcessor);
 ```
 
 ## USAGE
-
-Initialize the tables
 
 ```php
 <?php
@@ -59,8 +55,8 @@ Resulted record for any Throwable
   ...
   "extra" => [
     "message" => "test",
-    "class" => "Exception",
-    "trace" =>"#0 {main}",
+    "class"   => "Exception",
+    "trace"   => "#0 {main}",
   ],
 ]
 ```
@@ -72,30 +68,33 @@ Resulted record, if Throwable has previous
   "message" => "message",
   "context" => [...],
   ...
-  "extra" => [
-    "message" => "test",
-    "class" => "Exception",
-    "trace" =>"#0 {main}",
+  "extra"   => [
+    "message"  => "test",
+    "class"    => "Exception",
+    "trace"    =>"#0 {main}",
     "previous" => [
         "message" => "previous message",
-        "class" => "Class of previous",
-        "trace" =>"#0 {main}",
+        "class"   => "Class of previous",
+        "trace"   => "#0 {main}",
     ],
   ],
 ]
 ```
 
-You can realize ExceptionWithContext or extend ContextException
+You can implement ExceptionWithContext or extend ContextException
 
 ```php
 <?php
 
-class FooException extends ContextException
+use Exbico\Formatter\ExceptionWithContext;
+use Exbico\Formatter\ExceptionWithContextInterface;
+
+class FooException extends ExceptionWithContext
 {
 
 }
 
-class BarException implements ExceptionWithContext
+class BarException implements ExceptionWithContextInterface
 {
     ...
 
@@ -123,19 +122,19 @@ Then record will look:
 [
   "message" => "message",
   "context" => [
-    "id" => 12,
+    "id"   => 12,
     "text" => "...",
     "date" => "...",
   ],
   ...
   "extra" => [
-    "message" => "test",
-    "class" => "Exception",
-    "trace" =>"#0 {main}",
+    "message"  => "test",
+    "class"    => "Exception",
+    "trace"    =>"#0 {main}",
     "previous" => [
         "message" => "previous message",
-        "class" => "Class of previous",
-        "trace" =>"#0 {main}",
+        "class"   => "Class of previous",
+        "trace"   => "#0 {main}",
     ],
   ],
 ]
