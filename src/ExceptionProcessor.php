@@ -5,33 +5,32 @@ declare(strict_types=1);
 namespace Exbico\Processor;
 
 use Monolog\Logger;
+use Monolog\LogRecord;
 use Monolog\Processor\ProcessorInterface;
 use Throwable;
 
-/**
- * @phpstan-import-type Record from Logger
- */
 final class ExceptionProcessor implements ProcessorInterface
 {
-    /**
-     * @param array<string, mixed> $record
-     * @return array<string, mixed>
-     * @phpstan-param Record $record
-     */
-    public function __invoke(array $record): array
+    public function __invoke(LogRecord $record): LogRecord
     {
-        if (isset($record['context']['exception'])) {
-            $context = $record['context'];
-            $exception = $context['exception'];
+        if (isset($record->context['exception'])) {
+            $exception = $record->context['exception'];
             if ($exception instanceof Throwable) {
-                $record['extra']['exception'] = $this->getExtraForException($exception);
                 $context = array_merge(
                     $this->getContextFromException($exception),
+                    $record->context,
+                );
+                unset($context['exception']);
+                $record = new LogRecord(
+                    $record->datetime,
+                    $record->channel,
+                    $record->level,
+                    $record->message,
                     $context,
+                    $record->extra + ['exception' => $this->getExtraForException($exception)],
+                    $record->formatted,
                 );
             }
-            unset($context['exception']);
-            $record['context'] = $context;
         }
         return $record;
     }
