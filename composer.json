@@ -1,0 +1,31 @@
+{
+  "name": "exbico/monolog-exception-processor",
+  "description": "Monolog processor of exceptions and exception with context",
+  "keywords": ["monolog", "processor", "exception", "context"],
+  "type": "library",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Contributors",
+      "homepage": "https://github.com/exbico/monolog-exception-processor/contributors"
+    }
+  ],
+  "require": {
+    "php": "^8.0",
+    "monolog/monolog": "^2.3"
+  },
+  "require-dev": {
+    "phpstan/phpstan": "^1.10",
+    "squizlabs/php_codesniffer": "^3.7"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "Exbico\\Processor\\": "src/"
+    }
+  }
+}
