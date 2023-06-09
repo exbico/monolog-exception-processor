@@ -10,7 +10,6 @@ use Throwable;
 
 /**
  * @phpstan-import-type Record from Logger
- * @phpstan-type Message array{message: string, class: string, trace: string, previous: array, exception: ?Throwable}
  */
 final class ExceptionProcessor implements ProcessorInterface
 {
@@ -25,10 +24,7 @@ final class ExceptionProcessor implements ProcessorInterface
             $context = $record['context'];
             $exception = $context['exception'];
             if ($exception instanceof Throwable) {
-                $record['extra'] = array_merge(
-                    $record['extra'],
-                    $this->getExtraForException($exception),
-                );
+                $record['extra']['exception'] = $this->getExtraForException($exception);
                 $context = array_merge(
                     $this->getContextFromException($exception),
                     $context,

@@ -54,9 +54,13 @@ Resulted record for any Throwable
   "context" => [...],
   ...
   "extra" => [
-    "message" => "test",
-    "class"   => "Exception",
-    "trace"   => "#0 {main}",
+    ...
+    "exception" => [
+      "message" => "test",
+      "class"   => "Exception",
+      "trace"   => "#0 {main}",
+    ],
+    ...
   ],
 ]
 ```
@@ -69,14 +73,18 @@ Resulted record, if Throwable has previous
   "context" => [...],
   ...
   "extra"   => [
-    "message"  => "test",
-    "class"    => "Exception",
-    "trace"    =>"#0 {main}",
-    "previous" => [
+    ...
+    "exception" => [
+      "message"  => "test",
+      "class"    => "Exception",
+      "trace"    =>"#0 {main}",
+      "previous" => [
         "message" => "previous message",
         "class"   => "Class of previous",
         "trace"   => "#0 {main}",
+      ],
     ],
+    ...
   ],
 ]
 ```
@@ -122,20 +130,31 @@ Then record will look:
 [
   "message" => "message",
   "context" => [
-    "id"   => 12,
-    "text" => "...",
+    "id"   => 34,
     "date" => "...",
+    "text" => "...",
   ],
   ...
   "extra" => [
-    "message"  => "test",
-    "class"    => "Exception",
-    "trace"    =>"#0 {main}",
-    "previous" => [
+    ...
+    "exception" => [
+      "message"  => "test",
+      "class"    => "Exception",
+      "trace"    =>"#0 {main}",
+      "previous" => [
         "message" => "previous message",
         "class"   => "Class of previous",
         "trace"   => "#0 {main}",
+        "context" => [
+          ...
+        ],
+      ],
+      "context" => [
+        "id"   => 34,
+        "date" => "...",
+      ],
     ],
+    ...
   ],
 ]
 ```
